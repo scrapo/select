@@ -6,7 +6,7 @@ module.exports = function select(context, selector) {
 	if (Array.isArray(context)) {
 		return flatten(each(context, function (item) { return select(item, selector); }));
 	}
-	const key = selector.shift();
+	const key = Array.isArray(selector) ? selector.shift() : selector;
 	if (key === undefined) {
 		return context;
 	}
