@@ -5,6 +5,9 @@ suite('select', function () {
 	test('with context object and selector array returns array', function () {
 		assert.deepStrictEqual(select({a: {b: {c: 42}}}, ['a']), {b: {c: 42}});
 	});
+	test('with context object and selector string returns array', function () {
+		assert.deepStrictEqual(select({a: {b: {c: 42}}}, 'a'), {b: {c: 42}});
+	});
 	test('with context object and selector array returns array', function () {
 		assert.deepStrictEqual(select({a: {b: {c: {d: [{e: 'Ee #1'}, {e: 'Ee #2'}]}}}}, ['a', 'b', 'c', 'd', 'e']), ['Ee #1', 'Ee #2']);
 	});
@@ -14,8 +17,15 @@ suite('select', function () {
 	test('with context object and selector array returns object', function () {
 		assert.deepStrictEqual(select({a: {b: {c: {d: [{e: {f: 'Ee #1'}}]}}}}, ['a', 'b', 'c', 'd', 'e']), {f: 'Ee #1'});
 	});
+	test('with wrapped context object and selector array returns object', function () {
+		assert.deepStrictEqual(select([[[{a: {b: {c: {d: [{e: {f: 'Ee #1'}}]}}}}]]], ['a', 'b', 'c', 'd', 'e']), {f: 'Ee #1'});
+	});
 	test('with context object and empty selector array returns context object', function () {
-		const context = {a: {b: {c: {d: [{e: {f: 'Ee #1'}}]}}}};
+		const context = {a: {b: {c: {d: [{e: 'f'}]}}}};
 		assert.deepStrictEqual(select(context, []), context);
+	});
+	test('with only context object returns context object', function () {
+		const context = {a: {b: {c: {d: [{e: 'f'}]}}}};
+		assert.deepStrictEqual(select(context), context);
 	});
 });

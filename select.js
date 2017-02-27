@@ -2,11 +2,11 @@ const each = require('each');
 const flatten = require('flatten');
 
 module.exports = function select(context, selector) {
-	selector = selector.slice();
+	selector = (Array.isArray(selector) ? selector.slice() : [selector]);
 	if (Array.isArray(context)) {
 		return flatten(each(context, function (item) { return select(item, selector); }));
 	}
-	const key = Array.isArray(selector) ? selector.shift() : selector;
+	const key = selector.shift();
 	if (key === undefined) {
 		return context;
 	}
